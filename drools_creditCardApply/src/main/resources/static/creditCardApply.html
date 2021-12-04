@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <title>XX银行信用卡申请</title>
+    <meta name="description" content="个人所得税计算">
+    <meta name="keywords" content="个人所得税计算">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+</head>
+<body class="mainBg">
+<div id="app">
+    <h3 align="center">XX银行信用卡申请</h3>
+    <table align="center" width="50%" border="0">
+        <tr>
+            <td>姓名</td>
+            <td>
+                <input type="text" v-model="creditCardApplyInfo.name">
+            </td>
+            <td>性别</td>
+            <td>
+                <input type="text" v-model="creditCardApplyInfo.sex">
+            </td>
+        </tr>
+        <tr>
+            <td>年龄</td>
+            <td>
+                <input type="text" v-model="creditCardApplyInfo.age">
+            </td>
+            <td>手机号</td>
+            <td>
+                <input type="text" v-model="creditCardApplyInfo.telephone">
+            </td>
+        </tr>
+        <tr>
+            <td>住址</td>
+            <td>
+                <input type="text" v-model="creditCardApplyInfo.address">
+            </td>
+            <td>学历</td>
+            <td>
+                <select v-model="creditCardApplyInfo.education">
+                    <option value="专科以下">专科以下</option>
+                    <option value="专科">专科</option>
+                    <option value="本科">本科</option>
+                    <option value="本科以上">本科以上</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>月收入</td>
+            <td>
+                <input type="text" v-model="creditCardApplyInfo.monthlyIncome">
+            </td>
+            <td>现持有信用卡数量</td>
+            <td>
+                <input type="text" v-model="creditCardApplyInfo.hasCreditCardCount">
+            </td>
+        </tr>
+        <tr>
+            <td>是否有房</td>
+            <td>
+                <select v-model="creditCardApplyInfo.hasHouse">
+                    <option value="true">是</option>
+                    <option value="false">否</option>
+                </select>
+            </td>
+            <td>是否有车</td>
+            <td>
+                <select v-model="creditCardApplyInfo.hasCar">
+                    <option value="true">是</option>
+                    <option value="false">否</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" align="center">
+                <br>
+                <input type="button" value="   申请   " @click="creditCardApply()">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" align="center">
+                {{applyResultMessage}}
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<!-- 引入组件库 -->
+<script src="js/vue.js"></script>
+<script src="js/axios.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data:{
+            creditCardApplyInfo:{
+                education:"本科",
+                hasHouse:true,
+                hasCar:true
+            },
+            applyResultMessage:''
+        },
+        methods: {
+            creditCardApply(){
+                axios.post("/rule/creditCardApply",this.creditCardApplyInfo).then((res) => {
+                    if(res.data.checkResult){
+                        //审核通过
+                        this.applyResultMessage = "恭喜你信用卡申请成功，信用卡额度为：" + res.data.quota;
+                    }else{
+                        //审核失败
+                        this.applyResultMessage = "抱歉，您提交的信息审核未通过，您不能申请我行信用卡!";
+                    }
+                });
+            }
+        }
+    });
+</script>
+</html>

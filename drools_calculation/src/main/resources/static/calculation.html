@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <title>个人所得税计算</title>
+    <meta name="description" content="个人所得税计算">
+    <meta name="keywords" content="个人所得税计算">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+</head>
+<body class="mainBg">
+<div id="app">
+    <h3 align="center">个人所得税计算器（2011版）</h3>
+    <table align="center" width="25%" border="0">
+        <tr>
+            <td>税前月收入</td>
+            <td>
+                <input type="text" v-model="cal.wage">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="button" value="计  算" @click="calculate()">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+            </td>
+        </tr>
+        <tr>
+            <td>应纳税所得额</td>
+            <td>
+                <input type="text" v-model="cal.wagemore">
+            </td>
+        </tr>
+        <tr>
+            <td>税率</td>
+            <td>
+                <input type="text" v-model="cal.cess">
+            </td>
+        </tr>
+        <tr>
+            <td>速算扣除数</td>
+            <td>
+                <input type="text" v-model="cal.preminus">
+            </td>
+        </tr>
+        <tr>
+            <td>扣税额</td>
+            <td>
+                <input type="text" v-model="cal.wageminus">
+            </td>
+        </tr>
+        <tr>
+            <td>税后工资</td>
+            <td>
+                <input type="text" v-model="cal.actualwage">
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<!-- 引入组件库 -->
+<script src="js/vue.js"></script>
+<script src="js/axios.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data:{
+            cal:{}
+        },
+        methods: {
+            calculate(){
+                if(this.cal.wage <= 3500){
+                    alert("税前月收入需要大于3500!");
+                    return;
+                }
+                axios.get("/rule/calculate?wage=" + this.cal.wage).then((res) => {
+                    console.log(res);
+                    this.cal = res.data;
+                });
+            }
+        }
+    });
+</script>
+</html>

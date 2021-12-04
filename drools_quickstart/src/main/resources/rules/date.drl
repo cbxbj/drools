@@ -1,0 +1,21 @@
+package data
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+rule "testDateEffective"
+enabled false
+//date-effective "2021-12-3 15:26:00" //该时间之后才会启用该规则
+    when
+
+    then
+        System.out.println("haha,触发时间:"+LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+end
+
+rule "testDateExpires"
+enabled false
+//date-expires "2021-12-3 15:30:00"
+    when
+
+    then
+        System.out.println("hehe,触发时间:"+LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+end

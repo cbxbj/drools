@@ -1,0 +1,30 @@
+package testrhs
+import org.drools.core.WorkingMemory
+
+rule "rhs_halt_1"
+enabled false
+    when
+    then
+        System.out.println("rhs_halt_1触发了");
+        drools.halt();//立即终止后面所有规则执行
+end
+
+rule "rhs_halt_2"
+    when
+    then
+        System.out.println("rhs_halt_2触发了");
+end
+
+rule "rhs_getWorkingMemory"
+    when
+    then
+        WorkingMemory workingMemory = drools.getWorkingMemory();//工作内存对象,本质是会话对象
+    	System.out.println(workingMemory);
+end
+
+rule "rhs_rule"
+    when
+    then
+        org.drools.core.definitions.rule.impl.RuleImpl rule = drools.getRule();
+    	System.out.println(rule);
+end

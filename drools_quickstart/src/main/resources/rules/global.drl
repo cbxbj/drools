@@ -1,0 +1,34 @@
+package testglobal
+import java.util.ArrayList
+import java.util.List
+/*
+    此规则文件用于测试global全局变量
+*/
+global java.lang.Integer count //定义一个包装类型的全局变量
+global org.example.drools.service.UserService userService //定义一个JavaBean类型的全局变量
+global java.util.List gList //定义一个集合类型的全局变量
+
+rule "rule_global_1"
+salience 1
+enabled false
+    when
+    then
+        System.out.println("规则rule_global_1触发了");
+        count += 10; //包装类型，只对当前规则有效，其他规则不受影响
+        userService.save();//调用全局变量的方法
+        gList.add("cbxbj");//向集合类型的全局变量中添加元素，Java代码和所有规则都受影响
+        gList.add("爱学习的小贾");
+        System.out.println("count=" + count);
+        System.out.println("gList.size=" + gList.size());
+end
+
+rule "rule_global_2"
+salience 2
+enabled false
+    when
+    then
+        System.out.println("规则rule_global_2触发了");
+        userService.save();
+        System.out.println("count=" + count);
+        System.out.println("gList.size=" + gList.size());
+end

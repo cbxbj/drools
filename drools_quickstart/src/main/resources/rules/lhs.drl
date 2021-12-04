@@ -1,0 +1,57 @@
+package testlhs
+import org.example.drools.entity.Student
+
+rule "lhs_in"
+    when
+        $s:Student(name in ("张三","李四","王五"))
+    then
+        System.out.println("规则lhs_in触发了:"+$s);
+end
+
+rule "lhs_not_in"
+    when
+        $s:Student(name not in ("张三","李四","王五"))
+    then
+        System.out.println("规则lhs_not_in触发了:"+$s);
+end
+
+rule "lhs_eval"
+    when
+        eval(true)
+    then
+        System.out.println("规则lhs_eval触发了");
+end
+
+rule "lhs_not"
+    when
+        not Student()
+        not Student(age < 10)
+    then
+        System.out.println("规则lhs_not触发了");
+end
+
+rule "lhs_exists"
+    when
+        exists Student()
+        exists Student(age < 10 && name != null)
+    then
+        System.out.println("规则lhs_exists触发了");
+end
+
+rule "lhs_1"
+    when
+    	Student(age > 10)
+    then
+    	System.out.println("规则：rule_1触发");
+end
+
+rule "lhs_2" extends "lhs_1" //继承上面的规则
+    when
+    	/*
+    	此处的条件虽然只写了一个，但是从上面的规则继承了一个条件，
+    	所以当前规则存在两个条件，即Student(age < 20)和Student(age > 10)
+    	*/
+    	Student(age < 20)
+    then
+    	System.out.println("规则：rule_2触发");
+end
